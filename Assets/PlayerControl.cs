@@ -12,6 +12,9 @@ public class PlayerControl : MonoBehaviour
     public float force = 10f;
     public float rotationForce = 10f;
 
+    [Header("Particle and animation")]
+    public PlayerLeafParticle leafParticle;
+
     void Start()
     {
         if (fourSides.Length != 4)
@@ -52,22 +55,29 @@ public class PlayerControl : MonoBehaviour
             fourSides[0].AddRelativeForce(Vector3.up * force, ForceMode.Force);
             fourSides[1].AddRelativeForce(Vector3.down * force, ForceMode.Force);
 
+            leafParticle.SetLeafParticleOn(0);
         }
         else if (value.y < 0)
         {
             fourSides[0].AddRelativeForce(Vector3.down * force, ForceMode.Force);
             fourSides[1].AddRelativeForce(Vector3.up * force, ForceMode.Force);
+
+            leafParticle.SetLeafParticleOn(2);
         }
         
         if (value.x > 0)
         {
             fourSides[2].AddRelativeForce(Vector3.up * force, ForceMode.Force);
             fourSides[3].AddRelativeForce(Vector3.down * force, ForceMode.Force);
+
+            leafParticle.SetLeafParticleOn(1);
         }
         else if (value.x < 0)
         {
             fourSides[2].AddRelativeForce(Vector3.down * force, ForceMode.Force);
             fourSides[3].AddRelativeForce(Vector3.up * force, ForceMode.Force);
+
+            leafParticle.SetLeafParticleOn(3);
         }
 
         // Finally do the rotation
