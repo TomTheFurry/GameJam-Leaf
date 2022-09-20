@@ -13,6 +13,7 @@ public class UIRateOfClimb : MonoBehaviour
     float velocity;
     float objectiveLastPositionY;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +26,7 @@ public class UIRateOfClimb : MonoBehaviour
         velocity = (objective.position.y - objectiveLastPositionY) / Time.deltaTime;
         objectiveLastPositionY = objective.position.y;
 
-        text.text = "Rate of Climb :\n" + velocity;
+        text.text = "Rate of Climb\n" + velocity.ToString("0.00");
         text.color = Color.LerpUnclamped(Color.green, Color.red, (velocity - velocityFullGreenThreshold) / (velocityFullRedThreshold - velocityFullGreenThreshold));
 
     }
