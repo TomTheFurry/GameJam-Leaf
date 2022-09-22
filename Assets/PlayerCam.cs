@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.PostProcessing;
 
 public class PlayerCam : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public class PlayerCam : MonoBehaviour
 
     public InputActionReference camMovement;
     public InputActionReference camZoom;
+
+    [Header("Post Process")]
+    public PostProcessVolume ppv;
+    DepthOfField dof;
 
     private void OnInputCamMove(InputAction.CallbackContext context)
     {
@@ -25,9 +30,11 @@ public class PlayerCam : MonoBehaviour
     }
     private void OnInputCamZoom(InputAction.CallbackContext context)
     {
-        float input = -context.ReadValue<Vector2>().y;
+        float input = -context.ReadValue<float>();
         camDistance += input / 100f;
         camDistance = Mathf.Clamp(camDistance, 1, 100);
+
+        dof.focusDistance.value = camDistance;
     }
 
     private void OnApplicationFocus(bool focus)
@@ -52,6 +59,8 @@ public class PlayerCam : MonoBehaviour
         // Disable mouse cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        ppv.profile.TryGetSettings(out dof);
     }
 
     private void OnDestroy()

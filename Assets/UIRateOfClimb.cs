@@ -9,8 +9,9 @@ public class UIRateOfClimb : MonoBehaviour
     public Text text;
     public float velocityFullRedThreshold = -3;
     public float velocityFullGreenThreshold = -0.1f;
+    public GameObject pullUpText;
 
-    float velocity;
+    float velocityY;
     float objectiveLastPositionY;
 
 
@@ -23,11 +24,17 @@ public class UIRateOfClimb : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        velocity = (objective.position.y - objectiveLastPositionY) / Time.deltaTime;
+        velocityY = (objective.position.y - objectiveLastPositionY) / Time.deltaTime;
         objectiveLastPositionY = objective.position.y;
 
-        text.text = "Rate of Climb\n" + velocity.ToString("0.00");
-        text.color = Color.LerpUnclamped(Color.green, Color.red, (velocity - velocityFullGreenThreshold) / (velocityFullRedThreshold - velocityFullGreenThreshold));
+        text.text = "Rate of Climb\n" + velocityY.ToString("0");
+        text.color = Color.LerpUnclamped(Color.green, Color.red, (velocityY - velocityFullGreenThreshold) / (velocityFullRedThreshold - velocityFullGreenThreshold));
+
+        if(velocityY < velocityFullRedThreshold && !pullUpText.activeSelf)
+            pullUpText.SetActive(true);
+        else if (velocityY > velocityFullRedThreshold && pullUpText.activeSelf)
+            pullUpText.SetActive(false);
+
 
     }
 }
